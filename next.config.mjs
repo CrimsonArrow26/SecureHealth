@@ -16,6 +16,9 @@ const nextConfig = {
     optimizePackageImports: ['@radix-ui/react-icons', 'lucide-react'],
   },
 
+  // Disable Edge Runtime for Supabase compatibility
+  runtime: 'nodejs',
+
   // Webpack optimizations
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {
