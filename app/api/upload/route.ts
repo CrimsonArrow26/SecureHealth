@@ -1,5 +1,3 @@
-import { put } from "@vercel/blob"
-
 export async function POST(req: Request) {
   try {
     const form = await req.formData()
@@ -10,12 +8,24 @@ export async function POST(req: Request) {
       return new Response(JSON.stringify({ error: "Missing file" }), { status: 400 })
     }
 
-    // Store encrypted payload with unique filename to avoid conflicts
-    const { url } = await put(filename, file, { 
-      access: "public",
-      addRandomSuffix: true 
+    // For Netlify deployment, we'll redirect to the Netlify function
+    // The actual file handling will be done by the Netlify function
+    const formData = new FormData()
+    formData.append("file", file)
+    formData.append("filename", filename)
+
+    // Call the Netlify function
+    const response = await fetch('/.netlify/functions/upload', {
+      method: 'POST',
+      body: formData
     })
-    return Response.json({ url })
+
+    if (!response.ok) {
+      throw new Error('Upload failed')
+    }
+
+    const result = await response.json()
+    return Response.json(result)
   } catch (e: any) {
     return new Response(JSON.stringify({ error: e?.message ?? "Upload failed" }), { status: 500 })
   }

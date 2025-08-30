@@ -1,9 +1,8 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { Manrope } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import "./globals.css"
 import { SiteHeader } from "@/components/site/site-header"
@@ -21,15 +20,18 @@ export const metadata: Metadata = {
   description: "Created with v0",
   generator: "v0.app",
   manifest: "/manifest.webmanifest",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#15803d" },
-    { media: "(prefers-color-scheme: dark)", color: "#15803d" },
-  ],
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
     title: "Secure Health",
   },
+}
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#15803d" },
+    { media: "(prefers-color-scheme: dark)", color: "#15803d" },
+  ],
 }
 
 export default function RootLayout({
@@ -45,7 +47,6 @@ export default function RootLayout({
           <main className="min-h-[calc(100dvh-140px)]">{children}</main>
           <SiteFooter />
         </Suspense>
-        <Analytics />
         <Toaster />
       </body>
     </html>

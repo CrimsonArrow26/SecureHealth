@@ -22,6 +22,20 @@ export default function SignUpPage() {
     // NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL is optional; fall back to current origin
     (typeof process !== "undefined" && process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL) || undefined
 
+  // Check if Supabase client is available
+  if (!supabase) {
+    return (
+      <main className="min-h-dvh bg-background text-foreground flex items-center justify-center px-4">
+        <Card className="w-full max-w-sm">
+          <CardHeader>
+            <CardTitle className="text-pretty">Configuration Error</CardTitle>
+            <CardDescription>Supabase client not available. Please check your environment configuration.</CardDescription>
+          </CardHeader>
+        </Card>
+      </main>
+    )
+  }
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError(null)

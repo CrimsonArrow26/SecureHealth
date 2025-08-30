@@ -15,6 +15,13 @@ export function SiteHeader() {
 
   useEffect(() => {
     const supabase = getSupabaseBrowser()
+    
+    // Check if Supabase client exists before using it
+    if (!supabase) {
+      console.warn('Supabase client not available. Auth features disabled.')
+      return
+    }
+    
     supabase.auth.getUser().then(({ data }) => setIsAuthed(!!data.user))
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsAuthed(!!session?.user)

@@ -10,6 +10,15 @@ export function SignOutButton() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
 
+  // Check if Supabase client is available
+  if (!supabase) {
+    return (
+      <Button variant="outline" size="sm" disabled>
+        Sign out
+      </Button>
+    )
+  }
+
   async function signOut() {
     setLoading(true)
     await supabase.auth.signOut()

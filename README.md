@@ -53,7 +53,7 @@ Design and implement a secure blockchain architecture that stores encrypted pati
 ### **Backend Services**
 - **Supabase** for authentication and database
 - **Netlify Functions** for serverless APIs
-- **Vercel Blob** for file storage
+- **Netlify Functions** for file storage
 - **Health check** monitoring system
 
 ### **Blockchain Layer**
@@ -75,7 +75,7 @@ Design and implement a secure blockchain architecture that stores encrypted pati
 | **Frontend** | Next.js 14, TypeScript, Tailwind CSS | Modern, responsive web application |
 | **Backend** | Supabase, Netlify Functions | Authentication, database, serverless APIs |
 | **Blockchain** | Ethereum, Solidity, Hardhat | Smart contracts, access control |
-| **Storage** | Vercel Blob, IPFS-ready | Secure file storage |
+| **Storage** | Netlify Functions, IPFS-ready | Secure file storage |
 | **Database** | PostgreSQL (Supabase) | Patient records, permissions, audit trails |
 | **Deployment** | Netlify | Global CDN, serverless functions |
 
@@ -110,7 +110,7 @@ npm run dev
 # Required environment variables
 NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-key
-BLOB_READ_WRITE_TOKEN=your-vercel-blob-token
+# File storage handled by Netlify Functions
 NEXT_PUBLIC_RPC_URL=your-sepolia-rpc-url
 ```
 

@@ -8,7 +8,7 @@ const nextConfig = {
   // Netlify deployment support
   trailingSlash: true,
   images: {
-    unoptimized: false, // Allow image optimization
+    unoptimized: true, // Required for static export
   },
   
   // Experimental features for better performance
@@ -16,11 +16,15 @@ const nextConfig = {
     optimizePackageImports: ['@radix-ui/react-icons', 'lucide-react'],
   },
 
-  // Disable Edge Runtime for Supabase compatibility
-  runtime: 'nodejs',
-  
-  // Output to 'out' directory for Netlify compatibility
-  distDir: 'out',
+  // Static export only for production builds (Netlify deployment)
+  ...(process.env.NODE_ENV === 'production' && {
+    output: 'export',
+    skipTrailingSlashRedirect: true,
+    skipMiddlewareUrlNormalize: true,
+    env: {
+      NEXT_PUBLIC_STATIC_EXPORT: 'true',
+    },
+  }),
 
   // Webpack optimizations
   webpack: (config, { dev, isServer }) => {
