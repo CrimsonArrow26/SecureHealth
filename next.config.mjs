@@ -18,6 +18,9 @@ const nextConfig = {
 
   // Disable Edge Runtime for Supabase compatibility
   runtime: 'nodejs',
+  
+  // Output to 'out' directory for Netlify compatibility
+  distDir: 'out',
 
   // Webpack optimizations
   webpack: (config, { dev, isServer }) => {
