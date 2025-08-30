@@ -1,0 +1,42 @@
+import { expect } from "chai";
+import { ethers } from "hardhat";
+import { Contract } from "ethers";
+
+describe("Counter", function () {
+  let counter: Contract;
+
+  beforeEach(async function () {
+    const Counter = await ethers.getContractFactory("Counter");
+    counter = await Counter.deploy();
+    await counter.waitForDeployment();
+  });
+
+  it("Should emit the Increment event when calling the inc() function", async function () {
+    await expect(counter.inc())
+      .to.emit(counter, "Increment")
+      .withArgs(1);
+  });
+
+  it("The sum of the Increment events should match the current value", async function () {
+    const deploymentBlockNumber = await ethers.provider.getBlockNumber();
+
+    // Run a series of increments
+    for (let i = 1; i <= 10; i++) {
+      await counter.incBy(i);
+    }
+
+    // Get events from deployment block
+    const events = await counter.queryFilter(
+      counter.filters.Increment(),
+      deploymentBlockNumber
+    );
+
+    // Check that the aggregated events match the current value
+    let total = 0;
+    for (const event of events) {
+      total += event.args?.by.toNumber() || 0;
+    }
+
+    expect(total).to.equal(await counter.x());
+  });
+});

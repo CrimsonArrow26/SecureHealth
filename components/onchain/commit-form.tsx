@@ -80,6 +80,8 @@ export function OnchainCommitForm() {
         abi: healthRecordRegistryAbi,
         functionName: "commitRecord",
         args: [hash],
+        chain: undefined,
+        account: wallet.address,
       })
       setStatus("confirming")
       setTxHash(tx)
@@ -109,6 +111,8 @@ export function OnchainCommitForm() {
         abi: healthRecordRegistryAbi,
         functionName: "grantAccess",
         args: [grantee as `0x${string}`, hash, expiry],
+        chain: undefined,
+        account: wallet.address,
       })
       setStatus("confirming")
       setTxHash(tx)
@@ -132,6 +136,8 @@ export function OnchainCommitForm() {
         abi: healthRecordRegistryAbi,
         functionName: "revokeAccess",
         args: [grantee as `0x${string}`, hash],
+        chain: undefined,
+        account: wallet.address,
       })
       setStatus("confirming")
       setTxHash(tx)

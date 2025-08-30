@@ -36,7 +36,7 @@ export function EncryptUpload() {
       const buf = await file.arrayBuffer()
       const { ciphertext, iv, salt } = await encryptWithPassphrase(pass, new Uint8Array(buf))
       const hash = await sha256Hex(ciphertext)
-      const encFile = new File([ciphertext], `${file.name}.enc`, { type: "application/octet-stream" })
+      const encFile = new File([ciphertext as BlobPart], `${file.name}.enc`, { type: "application/octet-stream" })
 
       setState("uploading")
       const fd = new FormData()

@@ -77,7 +77,7 @@ export async function POST(req: Request) {
         iv,
         salt,
         size,
-      })
+      } as any)
       .select("*")
       .single()
 

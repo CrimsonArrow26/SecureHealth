@@ -50,7 +50,7 @@ export async function importPrivateKeyJwk(jwk: JsonWebKey) {
 async function deriveAesKey(passphrase: string, salt: Uint8Array) {
   const baseKey = await subtle!.importKey("raw", enc(passphrase), "PBKDF2", false, ["deriveKey"])
   return subtle!.deriveKey(
-    { name: "PBKDF2", salt, iterations: 160_000, hash: "SHA-256" },
+    { name: "PBKDF2", salt: salt as BufferSource, iterations: 160_000, hash: "SHA-256" },
     baseKey,
     { name: "AES-GCM", length: 256 },
     false,
@@ -115,7 +115,7 @@ export async function unwrapPrivateKeyWithPassphrase(
 export async function publicKeyFingerprint(pubJwk: JsonWebKey): Promise<string> {
   // Simple SHA-256 of the JWK JSON for display; not a formal DID
   const data = enc(JSON.stringify(pubJwk))
-  const hash = new Uint8Array(await subtle!.digest("SHA-256", data))
+  const hash = new Uint8Array(await subtle!.digest("SHA-256", data as BufferSource))
   // take first 8 bytes as hex
   return [...hash.slice(0, 8)].map((b) => b.toString(16).padStart(2, "0")).join("")
 }
@@ -127,17 +127,17 @@ export async function generateContentKey(): Promise<CryptoKey> {
 
 export async function encryptContent(key: CryptoKey, data: Uint8Array) {
   const iv = crypto.getRandomValues(new Uint8Array(12))
-  const ciphertext = await subtle!.encrypt({ name: "AES-GCM", iv }, key, data)
+  const ciphertext = await subtle!.encrypt({ name: "AES-GCM", iv: iv as BufferSource }, key, data as BufferSource)
   return { iv, ciphertext: new Uint8Array(ciphertext) }
 }
 
 export async function decryptContent(key: CryptoKey, iv: Uint8Array, ciphertext: Uint8Array) {
-  const plaintext = await subtle!.decrypt({ name: "AES-GCM", iv }, key, ciphertext)
+  const plaintext = await subtle!.decrypt({ name: "AES-GCM", iv: iv as BufferSource }, key, ciphertext as BufferSource)
   return new Uint8Array(plaintext)
 }
 
 export async function sha256Hex(data: Uint8Array): Promise<string> {
-  const digest = await crypto.subtle.digest("SHA-256", data)
+  const digest = await crypto.subtle.digest("SHA-256", data as BufferSource)
   const bytes = new Uint8Array(digest)
   return Array.from(bytes)
     .map((b) => b.toString(16).padStart(2, "0"))
@@ -171,7 +171,7 @@ export async function encryptWithPassphrase(
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     return deriveAesKey(passphrase, salt)
   })()
-  const ciphertext = new Uint8Array(await subtle!.encrypt({ name: "AES-GCM", iv }, aesKey, data))
+  const ciphertext = new Uint8Array(await subtle!.encrypt({ name: "AES-GCM", iv: iv as BufferSource }, aesKey, data as BufferSource))
   return {
     salt,
     iv,

@@ -1,4 +1,4 @@
-import { createWalletClient, http, parseEther } from "viem";
+import { createWalletClient, createPublicClient, http, parseEther } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { hardhat } from "viem/chains";
 import { readFileSync } from "fs";
@@ -17,6 +17,12 @@ async function main() {
   // Create wallet client for localhost
   const client = createWalletClient({
     account,
+    chain: hardhat,
+    transport: http("http://127.0.0.1:8545"),
+  });
+
+  // Create public client for reading blockchain data
+  const publicClient = createPublicClient({
     chain: hardhat,
     transport: http("http://127.0.0.1:8545"),
   });
@@ -41,7 +47,7 @@ async function main() {
   console.log("Deployment transaction hash:", hash);
 
   // Wait for deployment
-  const receipt = await client.waitForTransactionReceipt({ hash });
+  const receipt = await publicClient.waitForTransactionReceipt({ hash });
   console.log("Contract deployed at:", receipt.contractAddress);
   console.log("Block number:", receipt.blockNumber);
 }

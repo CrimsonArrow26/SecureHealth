@@ -47,7 +47,7 @@ export async function getAuditTrail(recordHash?: string) {
 export async function recordView(ownerAddress: string, recordHash: string, viewerType: string, signer: ethers.Signer) {
   try {
     const contractWithSigner = contract.connect(signer)
-    const tx = await contractWithSigner.recordView(ownerAddress, recordHash, viewerType)
+    const tx = await (contractWithSigner as any).recordView(ownerAddress, recordHash, viewerType)
     await tx.wait()
     return tx
   } catch (error) {
@@ -60,7 +60,7 @@ export async function recordView(ownerAddress: string, recordHash: string, viewe
 export async function recordDownload(ownerAddress: string, recordHash: string, downloaderType: string, signer: ethers.Signer) {
   try {
     const contractWithSigner = contract.connect(signer)
-    const tx = await contractWithSigner.recordDownload(ownerAddress, recordHash, downloaderType)
+    const tx = await (contractWithSigner as any).recordDownload(ownerAddress, recordHash, downloaderType)
     await tx.wait()
     return tx
   } catch (error) {
@@ -73,7 +73,7 @@ export async function recordDownload(ownerAddress: string, recordHash: string, d
 export async function grantAccess(granteeAddress: string, recordHash: string, expiry: number, signer: ethers.Signer) {
   try {
     const contractWithSigner = contract.connect(signer)
-    const tx = await contractWithSigner.grantAccess(granteeAddress, recordHash, expiry)
+    const tx = await (contractWithSigner as any).grantAccess(granteeAddress, recordHash, expiry)
     await tx.wait()
     return tx
   } catch (error) {

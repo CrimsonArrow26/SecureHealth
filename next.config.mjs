@@ -6,15 +6,13 @@ const nextConfig = {
   generateEtags: true,
   
   // Netlify deployment support
-  output: 'export',
   trailingSlash: true,
   images: {
-    unoptimized: true, // Required for static export
+    unoptimized: false, // Allow image optimization
   },
   
   // Experimental features for better performance
   experimental: {
-    optimizeCss: true,
     optimizePackageImports: ['@radix-ui/react-icons', 'lucide-react'],
   },
 
