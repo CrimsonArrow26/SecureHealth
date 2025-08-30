@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     const PRIVATE_KEY = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80" // Hardhat account #0
     
     try {
-      const provider = new ethers.JsonRpcProvider("http://localhost:8545")
+      const provider = new ethers.providers.JsonRpcProvider("http://localhost:8545")
       const signer = new ethers.Wallet(PRIVATE_KEY, provider)
       
       let transaction: any = null

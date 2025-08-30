@@ -24,7 +24,7 @@ export const CONTRACT_ABI = [
 ]
 
 // Provider for local Hardhat network
-export const provider = new ethers.JsonRpcProvider("http://localhost:8545")
+export const provider = new ethers.providers.JsonRpcProvider("http://localhost:8545")
 
 // Contract instance
 export const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider)
